@@ -4,7 +4,7 @@
 
     <label for="name">Name</label>
     <div>
-      <input type="text" name="name" placeholder="Name" v-model="person.name" />
+      <input type="text" name="name" placeholder="Name" v-model="person.name"  class="border border-black rounded"/>
       <button @click="updateName()" class="bg-blue-300 rounded mx-2 px-2">Update</button>
     </div>
 
@@ -14,10 +14,10 @@
     </div>
     <div>
       <div v-for="(email,idx) in emails" v-bind:key="idx">
-        <input type="text" name="email" placeholder="Email" v-model="email.email"/>
+        <input type="text" name="email" placeholder="Email" v-model="email.email" class="border border-black rounded"/>
         <button type="button" @click="removeEmail(email)" v-if="emails.length > 1" class="bg-red-400 rounded mx-2 px-2">Remove</button>
 
-        <button @click="saveEmail(email)" v-if="email.id == null" class="disabled:bg-gray-200 bg-green-300 rounded mx-2 px-2">Save</button>
+        <button @click="saveEmail(email)" v-if="email.id == null" :disabled="email.email.trim() == ''" class="disabled:bg-gray-200 bg-green-300 rounded mx-2 px-2">Save</button>
         <button @click="updateEmail(email)" v-if="email.id != null" class="bg-blue-300 rounded mx-2 px-2">Update</button>
       </div>
     </div>
@@ -29,7 +29,7 @@
 
     <div>
       <div v-for="(phone_number,idx) in phone_numbers" v-bind:key="idx">
-        <input type="text" name="phone_number" placeholder="Phone Number" v-model="phone_number.phone_number"/>
+        <input type="text" name="phone_number" placeholder="Phone Number" v-model="phone_number.phone_number" class="border border-black rounded"/>
         <button type="button" @click="removePhoneNumber(phone_number)" v-if="phone_numbers.length > 1" class="bg-red-400 rounded mx-2 px-2">Remove</button>
 
         <button @click="savePhoneNumber(phone_number)" v-if="phone_number.id == null" :disabled="phone_number.phone_number.trim() == ''" class="disabled:bg-gray-200 bg-green-300 rounded mx-2 px-2">Save</button>
@@ -43,13 +43,13 @@
     </div>
     <div>
       <div v-for="(address,idx) in addresses" v-bind:key="idx">
-        <input type="text" name="street" placeholder="Street" v-model="address.street"/>
-        <input type="text" name="zip" placeholder="apt" v-model="address.apt_number"/>
-        <input type="text" name="city" placeholder="City" v-model="address.city"/>
+        <input type="text" name="street" placeholder="Street" v-model="address.street" class="border border-black rounded"/>
+        <input type="text" name="zip" placeholder="apt" v-model="address.apt_number" class="border border-black rounded"/>
+        <input type="text" name="city" placeholder="City" v-model="address.city" class="border border-black rounded"/>
         <select name="" id="" v-model="address.state_abbr">
           <option v-for="(state, idx) in states" v-bind:key="idx" v-bind:value="state[1]">{{ state[0] }}</option>
         </select>
-        <input type="text" name="zip" placeholder="Zip" v-model="address.zip_code"/>
+        <input type="text" name="zip" placeholder="Zip" v-model="address.zip_code" class="border border-black rounded"/>
 
         <button type="button" @click="removeAddress(address)" v-if="addresses.length > 1" class="bg-red-400 rounded mx-2 px-2">Remove</button>
         <button type="button" @click="verifyAddress(idx)" v-if="address?.verified != true" class="bg-gray-400 rounded mx-2 px-2">Verify</button>
@@ -75,9 +75,9 @@ export default {
         phone_number: [],
         address: []
       },
-      emails: [{email: ''}],
-      phone_numbers: [{phone_number: ''}],
-      addresses: [{street: '', apt_number: '', city: '', state_abbr: '', zip_code: ''}]
+      emails: [],
+      phone_numbers: [],
+      addresses: []
     }
   },
   mounted(){
@@ -118,7 +118,7 @@ export default {
     },
     updateEmail(email) {
       let id = this.person.id
-      axios.patch(`https://pydressapi.zachgreen.codes/persons/${id}/email/`, email).then(response => {
+      axios.patch(`https://pydressapi.zachgreen.codes/persons/${id}/email`, email).then(response => {
         this.emails = response.data
       }).catch(error => {
         console.log(error);
@@ -150,7 +150,7 @@ export default {
     },
     updatePhoneNumber(phone_number) {
       let id = this.person.id
-      axios.patch(`https://pydressapi.zachgreen.codes/persons/${id}/phone_number/`, phone_number).then(response => {
+      axios.patch(`https://pydressapi.zachgreen.codes/persons/${id}/phone_number`, phone_number).then(response => {
         this.phone_numbers = response.data
       }).catch(error => {
         console.log(error);
@@ -182,7 +182,7 @@ export default {
     },
     updateAddress(address) {
       let id = this.person.id
-      axios.patch(`https://pydressapi.zachgreen.codes/persons/${id}/address/`, address).then(response => {
+      axios.patch(`https://pydressapi.zachgreen.codes/persons/${id}/address`, address).then(response => {
         this.addresses = response.data
       }).catch(error => {
         console.log(error);

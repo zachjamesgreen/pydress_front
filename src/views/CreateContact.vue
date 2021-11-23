@@ -4,19 +4,19 @@
       
       <label for="name">Name</label>
       <div>
-        <input type="text" name="name" placeholder="Name" v-model="person.name" class="border"/>
+        <input type="text" name="name" placeholder="Name" v-model="person.name" class="border border-black rounded"/>
       </div>
 
       <label for="email">Email</label>
       <div v-for="(email,idx) in emails" v-bind:key="idx">
-        <input type="text" name="email" placeholder="Email" v-model="email.email" class="border"/>
+        <input type="text" name="email" placeholder="Email" v-model="email.email" class="border border-black rounded"/>
         <button type="button" @click="removeEmail(idx)" v-if="emails.length > 1" class="bg-red-400 rounded mx-2 px-2">Remove</button>
         <button type="button" @click="addEmail(idx)" class="bg-green-300 rounded mx-2 px-2">Add</button>
       </div>
 
       <label for="phone_number">Phone Number</label>
       <div v-for="(phone_number,idx) in phone_numbers" v-bind:key="idx">
-        <input type="text" name="phone_number" placeholder="Phone Number" v-model="phone_number.phone_number" class="border"/>
+        <input type="text" name="phone_number" placeholder="Phone Number" v-model="phone_number.phone_number" class="border border-black rounded"/>
         <button type="button" @click="removePhoneNumber(idx)" v-if="phone_numbers.length > 1" class="bg-red-400 rounded mx-2 px-2">Remove</button>
         <button type="button" @click="addPhoneNumber(idx)" class="bg-green-300 rounded mx-2 px-2">Add</button>
       </div>
@@ -24,15 +24,15 @@
       <label for="address">Address (Address are not added until verified)</label>
       <div v-for="(address,idx) in addresses" v-bind:key="idx" class="flex">
         <p v-if="address?.verified == true">✅</p>
-        <input type="text" name="street" placeholder="Street" v-model="address.street" class="border"/>
-        <input type="text" name="apt" placeholder="apt/suite" v-model="address.apt_number" class="border"/>
-        <input type="text" name="city" placeholder="City" v-model="address.city" class="border"/>
-        <select name="" id="" v-model="address.state_abbr" class="border">
+        <input type="text" name="street" placeholder="Street" v-model="address.street" class="border border-black rounded"/>
+        <input type="text" name="apt" placeholder="apt/suite" v-model="address.apt_number" class="border border-black rounded"/>
+        <input type="text" name="city" placeholder="City" v-model="address.city" class="border border-black rounded"/>
+        <select name="" id="" v-model="address.state_abbr" class="border border-black rounded">
           <option value="" disabled>State</option>
           <option v-for="(state, idx) in states" v-bind:key="idx" v-bind:value="state[1]">{{ state[0] }}</option>
         </select>
 
-        <input type="text" name="zip" placeholder="Zip" v-model="address.zip_code" class="border"/>
+        <input type="text" name="zip" placeholder="Zip" v-model="address.zip_code" class="border border-black rounded"/>
         <button type="button" @click="verifyAddress(idx)" v-if="address?.verified != true" class="bg-gray-400 rounded mx-2 px-2">Verify</button>
         <button type="button" @click="removeAddress(idx)" v-if="addresses.length > 1" class="bg-red-400 rounded mx-2 px-2">Remove</button>
         <button type="button" @click="addAddress(idx)" class="bg-green-300 rounded mx-2 px-2">Add</button>
