@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <Contacts :contacts="contacts"/>
+    <Contacts :contacts="contacts" @delete="removeContact"/>
   </div>
 </template>
 
@@ -20,10 +20,21 @@ export default {
   },
   mounted() {
     axios.get('http://localhost:8000/persons').then(res => {
-      this.contacts = res.data;
+      this.contacts = res.data.sort((a, b) => {
+        return a.name.localeCompare(b.name);
+      });
     }).catch(err => {
       console.log(err);
     });
   },
+  methods: {
+    removeContact(contact) {
+      axios.delete(`http://localhost:8000/persons/${contact.id}`).then(response => {
+        this.contacts.splice(this.contacts.indexOf(contact), 1);
+      }).catch(error => {
+        console.log(error);
+      });
+    }
+  }
 }
 </script>

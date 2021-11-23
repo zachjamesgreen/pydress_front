@@ -1,49 +1,60 @@
 <template>
-  <div>
-    <h1>Edit Contact</h1>
-    <form @submit.prevent="onSubmitName">
-      <label for="name">Name</label>
-      <input type="text" name="name" placeholder="Name" v-model="person.name"/>
-      <input type="submit" value="Save">
-    </form>
+  <div class="flex flex-col space-y-8 items-center mb-8">
+    <h1 class="text-3xl">Edit Contact</h1>
+
+    <label for="name">Name</label>
+    <div>
+      <input type="text" name="name" placeholder="Name" v-model="person.name" />
+      <button @click="updateName()" class="bg-blue-300 rounded mx-2 px-2">Update</button>
+    </div>
 
     <div>
       <label for="email">Email</label>
-      <button type="button" @click="addEmail(idx)">Add</button>
+      <button type="button" @click="addEmail(idx)" class="bg-green-300 rounded mx-2 px-2">Add</button>
+    </div>
+    <div>
       <div v-for="(email,idx) in emails" v-bind:key="idx">
         <input type="text" name="email" placeholder="Email" v-model="email.email"/>
-        <button type="button" @click="removeEmail(email)" v-if="emails.length > 1">Remove</button>
+        <button type="button" @click="removeEmail(email)" v-if="emails.length > 1" class="bg-red-400 rounded mx-2 px-2">Remove</button>
 
-        <input type="submit" value="Save" @click="saveEmail(email)" v-if="email.id == null">
-        <input type="submit" value="Update" @click="updateEmail(email)" v-if="email.id != null">
+        <button @click="saveEmail(email)" v-if="email.id == null" class="disabled:bg-gray-200 bg-green-300 rounded mx-2 px-2">Save</button>
+        <button @click="updateEmail(email)" v-if="email.id != null" class="bg-blue-300 rounded mx-2 px-2">Update</button>
       </div>
     </div>
 
     <div>
       <label for="phone_number">Phone Number</label>
-      <button type="button" @click="addPhoneNumber(idx)">Add</button>
+      <button type="button" @click="addPhoneNumber(idx)" class="bg-green-300 rounded mx-2 px-2">Add</button>
+    </div>
+
+    <div>
       <div v-for="(phone_number,idx) in phone_numbers" v-bind:key="idx">
         <input type="text" name="phone_number" placeholder="Phone Number" v-model="phone_number.phone_number"/>
-        <button type="button" @click="removePhoneNumber(phone_number)" v-if="phone_numbers.length > 1">Remove</button>
+        <button type="button" @click="removePhoneNumber(phone_number)" v-if="phone_numbers.length > 1" class="bg-red-400 rounded mx-2 px-2">Remove</button>
 
-        <input type="submit" value="Save" @click="savePhoneNumber(phone_number)" v-if="phone_number.id == null">
-        <input type="submit" value="Update" @click="updatePhoneNumber(phone_number)" v-if="phone_number.id != null">
+        <button @click="savePhoneNumber(phone_number)" v-if="phone_number.id == null" :disabled="phone_number.phone_number.trim() == ''" class="disabled:bg-gray-200 bg-green-300 rounded mx-2 px-2">Save</button>
+        <button @click="updatePhoneNumber(phone_number)" v-if="phone_number.id != null" class="bg-blue-300 rounded mx-2 px-2">Update</button>
       </div>
     </div>
 
     <div>
       <label for="address">Address</label>
-      <button type="button" @click="addAddress(idx)">Add</button>
+      <button type="button" @click="addAddress(idx)" class="bg-green-300 rounded mx-2 px-2">Add</button>
+    </div>
+    <div>
       <div v-for="(address,idx) in addresses" v-bind:key="idx">
         <input type="text" name="street" placeholder="Street" v-model="address.street"/>
         <input type="text" name="zip" placeholder="apt" v-model="address.apt_number"/>
         <input type="text" name="city" placeholder="City" v-model="address.city"/>
-        <input type="text" name="state" placeholder="State" v-model="address.state_abbr"/>
+        <select name="" id="" v-model="address.state_abbr">
+          <option v-for="(state, idx) in states" v-bind:key="idx" v-bind:value="state[1]">{{ state[0] }}</option>
+        </select>
         <input type="text" name="zip" placeholder="Zip" v-model="address.zip_code"/>
-        <button type="button" @click="removeAddress(address)" v-if="addresses.length > 1">Remove</button>
 
-        <input type="submit" value="Save" @click="saveAddress(address)" v-if="address.id == null">
-        <input type="submit" value="Update" @click="updateAddress(address)" v-if="address.id != null">
+        <button type="button" @click="removeAddress(address)" v-if="addresses.length > 1" class="bg-red-400 rounded mx-2 px-2">Remove</button>
+        <button type="button" @click="verifyAddress(idx)" v-if="address?.verified != true" class="bg-gray-400 rounded mx-2 px-2">Verify</button>
+        <button @click="saveAddress(address)" v-if="address.id == null" :disabled="address?.verified != true" class="disabled:bg-gray-200 bg-green-300 rounded mx-2 px-2">Save</button>
+        <button @click="updateAddress(address)" v-if="address.id != null" :disabled="address?.verified != true" class="disabled:bg-gray-200 bg-blue-300 rounded mx-2 px-2">Update</button>
       </div>
     </div>
 
@@ -52,9 +63,12 @@
 
 <script>
 const axios = require('axios')
+import STATES from '../states.js'
 export default {
   data() {
+    let states = STATES
     return {
+      states,
       person: {
         name: '',
         emails: [],
@@ -69,7 +83,6 @@ export default {
   mounted(){
     let id = this.$route.params.id
     axios.get(`http://localhost:8000/persons/${id}`, this.person).then(response => {
-        console.log(response.data);
         this.person = response.data
         this.emails = this.person.emails
         this.phone_numbers = this.person.phone_numbers
@@ -175,7 +188,26 @@ export default {
         console.log(error);
       });
     },
-    onSubmitName() {
+    verifyAddress(idx) {
+      let address = this.addresses[idx];
+      let params = {
+        street: address.street,
+        zip: address.zip_code
+      }
+      axios.get(`http://localhost:8000/verify_address`, {params}).then(res => {
+        console.log(res.data);
+        address.street = res.data.street;
+        address.city = res.data.city;
+        address.state_abbr = res.data.state_abbr;
+        address.zip_code = res.data.zip_code;
+        address.verified = true;
+      }).catch(error => {
+        console.log(error);
+        alert('Sorry address not found');
+      });
+    },
+
+    updateName() {
       let id = this.person.id
       axios.patch(`http://localhost:8000/persons/${id}`, this.person).then(response => {
         this.person.name = response.data.name

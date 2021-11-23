@@ -1,32 +1,11 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link> |
-    <router-link to="/create">Create New</router-link>
-
+<h1 class="flex justify-center text-7xl my-8">Pydress</h1>
+  <div id="nav" class="flex justify-center text-2xl my-8">
+    <router-link to="/" class="hover:text-blue-300 hover:underline mx-2">Home</router-link> |
+    <router-link to="/about" class="hover:text-blue-300 hover:underline mx-2">About</router-link> |
+    <router-link to="/create" class="hover:text-blue-300 hover:underline mx-2">Create New</router-link>
   </div>
-  <router-view/>
+  <div class="flex justify-center">
+    <router-view/>
+  </div>
 </template>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
