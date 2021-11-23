@@ -82,7 +82,7 @@ export default {
   },
   mounted(){
     let id = this.$route.params.id
-    axios.get(`http://localhost:8000/persons/${id}`, this.person).then(response => {
+    axios.get(`https://pydressapi.zachgreen.codes/persons/${id}`, this.person).then(response => {
         this.person = response.data
         this.emails = this.person.emails
         this.phone_numbers = this.person.phone_numbers
@@ -99,7 +99,7 @@ export default {
     removeEmail(email) {
       let id = this.person.id
       if (email.id) {
-        axios.delete(`http://localhost:8000/persons/${id}/email/${email.id}`,).then(response => {
+        axios.delete(`https://pydressapi.zachgreen.codes/persons/${id}/email/${email.id}`,).then(response => {
           this.emails = response.data
         }).catch(error => {
           console.log(error);
@@ -110,7 +110,7 @@ export default {
     },
     saveEmail(email) {
       let id = this.person.id
-      axios.post(`http://localhost:8000/persons/${id}/email`, email).then(response => {
+      axios.post(`https://pydressapi.zachgreen.codes/persons/${id}/email`, email).then(response => {
         this.emails = response.data
       }).catch(error => {
         console.log(error);
@@ -118,7 +118,7 @@ export default {
     },
     updateEmail(email) {
       let id = this.person.id
-      axios.patch(`http://localhost:8000/persons/${id}/email/`, email).then(response => {
+      axios.patch(`https://pydressapi.zachgreen.codes/persons/${id}/email/`, email).then(response => {
         this.emails = response.data
       }).catch(error => {
         console.log(error);
@@ -131,7 +131,7 @@ export default {
     removePhoneNumber(phone_number) {
       let id = this.person.id
       if (phone_number.id) {
-        axios.delete(`http://localhost:8000/persons/${id}/phone_number/${phone_number.id}`,).then(response => {
+        axios.delete(`https://pydressapi.zachgreen.codes/persons/${id}/phone_number/${phone_number.id}`,).then(response => {
           this.phone_numbers = response.data
         }).catch(error => {
           console.log(error);
@@ -142,7 +142,7 @@ export default {
     },
     savePhoneNumber(phone_number) {
       let id = this.person.id
-      axios.post(`http://localhost:8000/persons/${id}/phone_number`, phone_number).then(response => {
+      axios.post(`https://pydressapi.zachgreen.codes/persons/${id}/phone_number`, phone_number).then(response => {
         this.phone_numbers = response.data
       }).catch(error => {
         console.log(error);
@@ -150,7 +150,7 @@ export default {
     },
     updatePhoneNumber(phone_number) {
       let id = this.person.id
-      axios.patch(`http://localhost:8000/persons/${id}/phone_number/`, phone_number).then(response => {
+      axios.patch(`https://pydressapi.zachgreen.codes/persons/${id}/phone_number/`, phone_number).then(response => {
         this.phone_numbers = response.data
       }).catch(error => {
         console.log(error);
@@ -163,7 +163,7 @@ export default {
     removeAddress(address) {
       let id = this.person.id
       if (address.id) {
-        axios.delete(`http://localhost:8000/persons/${id}/address/${address.id}`,).then(response => {
+        axios.delete(`https://pydressapi.zachgreen.codes/persons/${id}/address/${address.id}`,).then(response => {
           this.addresses = response.data
         }).catch(error => {
           console.log(error);
@@ -174,7 +174,7 @@ export default {
     },
     saveAddress(address) {
       let id = this.person.id
-      axios.post(`http://localhost:8000/persons/${id}/address`, address).then(response => {
+      axios.post(`https://pydressapi.zachgreen.codes/persons/${id}/address`, address).then(response => {
         this.addresses = response.data
       }).catch(error => {
         console.log(error);
@@ -182,7 +182,7 @@ export default {
     },
     updateAddress(address) {
       let id = this.person.id
-      axios.patch(`http://localhost:8000/persons/${id}/address/`, address).then(response => {
+      axios.patch(`https://pydressapi.zachgreen.codes/persons/${id}/address/`, address).then(response => {
         this.addresses = response.data
       }).catch(error => {
         console.log(error);
@@ -194,7 +194,7 @@ export default {
         street: address.street,
         zip: address.zip_code
       }
-      axios.get(`http://localhost:8000/verify_address`, {params}).then(res => {
+      axios.get(`https://pydressapi.zachgreen.codes/verify_address`, {params}).then(res => {
         console.log(res.data);
         address.street = res.data.street;
         address.city = res.data.city;
@@ -209,7 +209,7 @@ export default {
 
     updateName() {
       let id = this.person.id
-      axios.patch(`http://localhost:8000/persons/${id}`, this.person).then(response => {
+      axios.patch(`https://pydressapi.zachgreen.codes/persons/${id}`, this.person).then(response => {
         this.person.name = response.data.name
         // got to contact page
       }).catch(error => {

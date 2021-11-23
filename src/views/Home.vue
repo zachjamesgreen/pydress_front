@@ -19,7 +19,7 @@ export default {
     }
   },
   mounted() {
-    axios.get('http://localhost:8000/persons').then(res => {
+    axios.get('https://pydressapi.zachgreen.codes/persons').then(res => {
       this.contacts = res.data.sort((a, b) => {
         return a.name.localeCompare(b.name);
       });
@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     removeContact(contact) {
-      axios.delete(`http://localhost:8000/persons/${contact.id}`).then(response => {
+      axios.delete(`https://pydressapi.zachgreen.codes/persons/${contact.id}`).then(response => {
         this.contacts.splice(this.contacts.indexOf(contact), 1);
       }).catch(error => {
         console.log(error);

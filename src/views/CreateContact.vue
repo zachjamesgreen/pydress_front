@@ -72,7 +72,7 @@ export default {
           this.person.addresses.push(address)
         }
       });
-      axios.post('http://localhost:8000/create_record', this.person).then(response => {
+      axios.post('https://pydressapi.zachgreen.codes/create_record', this.person).then(response => {
         let id = response.data.id;
         this.$router.push(`/contact/${id}`);
       }).catch(error => {
@@ -104,7 +104,7 @@ export default {
         street: address.street,
         zip: address.zip_code
       }
-      axios.get(`http://localhost:8000/verify_address`, {params}).then(res => {
+      axios.get(`https://pydressapi.zachgreen.codes/verify_address`, {params}).then(res => {
         console.log(res.data);
         address.street = res.data.street;
         address.city = res.data.city;

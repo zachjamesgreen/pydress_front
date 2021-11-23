@@ -18,7 +18,7 @@ export default {
   },
   created() {
     let id = this.$route.params.id
-    axios.get(`http://localhost:8000/persons/${id}`).then(response => {
+    axios.get(`https://pydressapi.zachgreen.codes/persons/${id}`).then(response => {
         this.contact = response.data;
       }).catch(error => {
         console.log(error);
