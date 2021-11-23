@@ -1,24 +1,19 @@
-# pydress
+# Pydress
 
-## Project setup
-```
-npm install
-```
+For this project I chose to use FastAPI and Vue.js
+In this project a user can:
+  - create a contact
+  - edit a contact
+    - can edit name, emails, phone numbers, and addresses seperatly
+  - see all contacts on home page
+  - can see one contact
+  - can delete a contact
+  - can delete emails, phone numbers, and addresses seperatly
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+I did integrate USPS web API to verify addresses. A user would need to verify the address before the address can be added.
 
-### Compiles and minifies for production
-```
-npm run build
-```
+My first project using Python/FastAPI and Vue.js
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+site: https://pydress.zachgreen.codes
+backend: https://github.com/zachjamesgreen/pydress
+frontend: https://github.com/zachjamesgreen/pydress_front
